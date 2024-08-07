@@ -36,4 +36,7 @@ public interface DishMapper {
     //根据数组集合
 
     void deleteByIds(List<Long> ids);
+
+    @AutoFill(OperationType.UPDATE)
+    void update(Dish dish);
 }

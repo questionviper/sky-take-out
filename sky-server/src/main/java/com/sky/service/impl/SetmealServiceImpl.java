@@ -60,7 +60,7 @@ public class SetmealServiceImpl implements SetmealService {
 
         //更新套餐信息
         List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
-        setmealDishMapper.deleteById(setmeal.getId());
+        setmealDishMapper.deleteBySetmealId(setmeal.getId());
         for (SetmealDish dish : setmealDishes) {
             dish.setSetmealId(setmeal.getId());
             setmealDishMapper.insert(dish);
@@ -81,5 +81,13 @@ public class SetmealServiceImpl implements SetmealService {
             dish.setSetmealId(setmeal.getId());
             setmealDishMapper.insert(dish);
         }
+    }
+
+    @Override
+    public void deleteByIds(List<Long> ids) {
+        ids.forEach(id -> {
+            setmealDishMapper.deleteBySetmealId(id);
+            setmealMapper.deleteById(id);
+        });
     }
 }

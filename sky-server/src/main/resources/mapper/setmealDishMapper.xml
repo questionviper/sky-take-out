@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.SetmealDishMapper">
+    <update id="update" parameterType="SetmealDish">
+        update setmeal_dish
+        <set>
+            <if test="setmealId != null">setmeal_id = #{setmealId},</if>
+            <if test="dishId != null">dish_id = #{dishId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="copies != null">copies = #{copies},</if>
+        </set>
+        where id = #{id}
+    </update>
 
     <select id="getSetmealDishIdsByDishIds" resultType="java.lang.Long">
         select setmeal_id from setmeal_dish  where dish_id in

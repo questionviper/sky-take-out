@@ -11,4 +11,6 @@ public interface SetmealService {
     PageResult pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
 
     void update(SetmealDTO setmealDTO);
+
+    void insert(SetmealDTO setmealDTO);
 }

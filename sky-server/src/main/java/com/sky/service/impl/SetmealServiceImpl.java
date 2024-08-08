@@ -6,6 +6,7 @@ import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
+import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -25,9 +26,21 @@ public class SetmealServiceImpl implements SetmealService {
     private SetmealMapper setmealMapper;
     @Autowired
     private SetmealDishMapper setmealDishMapper;
+    @Autowired
+    private DishMapper dishMapper;
+
     @Override
+    @Transactional
     public SetmealVO getById(Long id) {
-        return setmealMapper.getById(id);
+        //获取套餐信息
+        Setmeal setmeal = setmealMapper.getById(id);
+        SetmealVO setmealVO = new SetmealVO();
+        BeanUtils.copyProperties(setmeal, setmealVO);
+        //获取套餐菜品
+        List<SetmealDish> setmealDishes = setmealDishMapper.getSetmealDishesBySetmealId(id);
+        setmealVO.setSetmealDishes(setmealDishes);
+        return setmealVO;
+
     }
 
     @Override
@@ -40,17 +53,33 @@ public class SetmealServiceImpl implements SetmealService {
     @Override
     @Transactional
     public void update(SetmealDTO setmealDTO) {
-        //新增套餐
+        //更新套餐
         Setmeal setmeal = new Setmeal();
         BeanUtils.copyProperties(setmealDTO,setmeal);
         setmealMapper.update(setmeal);
 
-        //新增套餐信息
+        //更新套餐信息
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+        setmealDishMapper.deleteById(setmeal.getId());
+        for (SetmealDish dish : setmealDishes) {
+            dish.setSetmealId(setmeal.getId());
+            setmealDishMapper.insert(dish);
+        }
+
+    }
+
+    @Override
+    @Transactional
+    public void insert(SetmealDTO setmealDTO) {
+        //添加进套餐表
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO,setmeal);
+        setmealMapper.insert(setmeal);
+        //添加套餐中的菜
         List<SetmealDish> setmealDish = setmealDTO.getSetmealDishes();
         for (SetmealDish dish : setmealDish) {
             dish.setSetmealId(setmeal.getId());
-            setmealDishMapper.update(dish);
+            setmealDishMapper.insert(dish);
         }
-
     }
 }

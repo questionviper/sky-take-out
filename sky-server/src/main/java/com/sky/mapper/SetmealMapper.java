@@ -5,10 +5,10 @@ import com.sky.annotation.AutoFill;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
-import com.sky.vo.SetmealVO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface SetmealMapper {
@@ -22,10 +22,17 @@ public interface SetmealMapper {
     Integer countByCategoryId(Long id);
 
     @Select("select * from setmeal where id = #{id}")
-    SetmealVO getById(Long id);
+    Setmeal getById(Long id);
 
     Page<Setmeal> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
 
     @AutoFill(OperationType.UPDATE)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     void update(Setmeal setmeal);
+
+    @Insert("insert into setmeal (category_id, name, price, status, description, image, create_time, update_time, create_user, update_user) VALUES " +
+            "(#{categoryId}, #{name}, #{price}, #{status}, #{description},#{image}, #{createTime}, #{updateTime},#{createUser},#{updateUser})")
+    @AutoFill(OperationType.INSERT)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void insert(Setmeal setmeal);
 }

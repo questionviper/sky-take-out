@@ -43,4 +43,12 @@ public class SetmealController {
         setmealService.update(setmealDTO);
         return Result.success();
     }
+
+    @PostMapping
+    @ApiOperation("新增套餐")
+    public Result insert(@RequestBody SetmealDTO setmealDTO) {
+        log.info("新增套餐{}",setmealDTO);
+        setmealService.insert(setmealDTO);
+        return Result.success();
+    }
 }

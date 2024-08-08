@@ -11,6 +11,9 @@ sky:
     port: 6379
     password: jtzgys0327
     database: 0
+  wechat:
+    appid: wx71617fa2612eba99
+    secret: 995b2091ef885e9e51c943b11ad4240f
 
 aliyun:
   oss:

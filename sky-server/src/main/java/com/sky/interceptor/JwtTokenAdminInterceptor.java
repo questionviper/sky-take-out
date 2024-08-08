@@ -39,6 +39,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        //log.info("此次拦截请求头中的TokenName:{}",jwtProperties.getUserTokenName());
         //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getAdminTokenName());
 
@@ -53,6 +54,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             return true;
         } catch (Exception ex) {
             //4、不通过，响应401状态码
+            log.info("jwt校验失败");
             response.setStatus(401);
             return false;
         }

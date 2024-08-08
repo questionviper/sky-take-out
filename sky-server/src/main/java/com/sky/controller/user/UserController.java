@@ -40,6 +40,7 @@ public class UserController {
         claims.put(JwtClaimsConstant.USER_ID, user.getId());
         String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(),jwtProperties.getUserTtl(),claims);
 
+        log.info("该用户jwt为：{}",token);
         UserLoginVO loginVO = UserLoginVO.builder()
                 .id(user.getId())
                 .openid(user.getOpenid())

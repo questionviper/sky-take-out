@@ -61,4 +61,12 @@ public class SetmealController {
         setmealService.deleteByIds(ids);
         return Result.success();
     }
+
+    @PostMapping("status/{status}")
+    @ApiOperation("启用禁用套餐账号")
+    public Result startOrStop(@PathVariable Integer status, Long id) {
+        log.info("启用禁用套餐账号：{},{}",id,status);
+        setmealService.startOrStop(status,id);
+        return Result.success();
+    }
 }

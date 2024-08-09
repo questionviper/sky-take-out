@@ -6,6 +6,7 @@ import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
 import com.sky.vo.DishItemVO;
+import com.sky.vo.SetmealVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface SetmealMapper {
     @Select("select * from setmeal where id = #{id}")
     Setmeal getById(Long id);
 
-    Page<Setmeal> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
+    Page<SetmealVO> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO);
 
     @AutoFill(OperationType.UPDATE)
     @Options(useGeneratedKeys = true, keyProperty = "id")
